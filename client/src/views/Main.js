@@ -9,7 +9,7 @@ const Main = props => {
     })
     return (
         <div className="Page">
-            <div className="Wrapper">
+            <div className="Wrapper_2">
                 <div className="Header">
                     <h1> Pet Shelter </h1> <a href="/new"> add a pet to the shelter </a>
                 </div>

@@ -20,7 +20,7 @@ module.exports.createPet = (request, response) => {
 }
 
 module.exports.deletePet = (request, response) => {
-    Pet.remove({_id: request.params.id})
+    Pet.deleteOne({_id: request.params.id})
         .then(response.json({message: "Pet Adopted!"}))
         .catch(err => response.json({message: "Something went wrong!", error: err}))
 }

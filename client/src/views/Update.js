@@ -10,8 +10,9 @@ export default props => {
     const [skill_1, setSkill_1] = useState('');
     const [skill_2, setSkill_2] = useState('');
     const [skill_3, setSkill_3] = useState('');
+    const [error, setError] = useState({});
     useEffect(() => {
-        axios.get('http://localhost:8000/api/pets/' + id)
+        axios.get(`http://localhost:8000/api/pets/${id}`)
             .then(res => {
                 setName(res.data.name);
                 setType(res.data.type);
@@ -23,7 +24,7 @@ export default props => {
     }, [])
     const updatePet = e => {
         e.preventDefault();
-        axios.put('http://localhost:8000/api/pets/update/' + id, {
+        axios.put(`http://localhost:8000/api/pets/update/${id}`, {
             name,
             type,
             description,
@@ -32,9 +33,16 @@ export default props => {
             skill_3
         })
             .then(res => {
-                console.log(res)
-                navigate('/')});
-    }
+                if(res.data.error){
+                    console.log(res.data.error)
+                    setError(res.data.error.errors)
+                }
+                else{
+                    console.log(res)
+                    navigate('/')
+                }
+                }
+            )}
     return (
         <div className="Page">
             <div className="Wrapper_2">
@@ -44,13 +52,18 @@ export default props => {
                 <div className="Header">
                     <h3>Edit {name}</h3>
                 </div>
-                <form onSubmit={updatePet}>
+                <form onSubmit={updatePet} error = {error}>
                 <p>
                     <label>Name: </label><br />
                     <input type="text" 
                     name="name" 
                     value={name} 
                     onChange={(e) => { setName(e.target.value) }} />
+                {
+                    error.name ? 
+                    <span className="alert"><br/>{error.name.message}</span>
+                    : ""
+                }
                 </p>
                 <p>
                     <label>Type: </label><br />
@@ -81,7 +94,7 @@ export default props => {
                     onChange={(e) => { setSkill_2(e.target.value) }} />
                 </p>
                 <p>
-                    <label>Skill 1: </label><br />
+                    <label>Skill 3: </label><br />
                     <input type="text" 
                     name="skill 3"
                     value={skill_3} 

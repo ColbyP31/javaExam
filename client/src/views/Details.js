@@ -6,12 +6,12 @@ import { navigate } from '@reach/router';
 export default props => {
     const [pet, setPet] = useState({})
     useEffect(() => {
-        axios.get("http://localhost:8000/api/pets/" + props.id)
+        axios.get(`http://localhost:8000/api/pets/${props.id}`)
             .then(res => setPet(res.data))
     }, [])
 
     const onClick = () => {
-        axios.delete("http://localhost:8000/api/pets/delete/" + props.id)
+        axios.delete(`http://localhost:8000/api/pets/delete/${props.id}`)
         .then(navigate("/"))
     }
     return (
@@ -27,6 +27,7 @@ export default props => {
                     <thead>
                     <tr>
                         <th>Type</th>
+                        <th>Description</th>
                         <th>Skill 1</th>
                         <th>Skill 2</th>
                         <th>Skill 3</th>
@@ -35,6 +36,7 @@ export default props => {
                     <tbody>
                         <tr>
                             <td>{pet.type}</td>
+                            <td>{pet.description}</td>
                             <td>{pet.skill_1}</td>
                             <td>{pet.skill_2}</td>
                             <td>{pet.skill_3}</td>
